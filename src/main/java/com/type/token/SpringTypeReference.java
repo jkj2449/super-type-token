@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class SpringTypeReference {
     public static void main(String[] args) {
-        ParameterizedTypeReference type = new ParameterizedTypeReference<List<Map<Set<Integer>, String>>>() {};
+        ParameterizedTypeReference<?> type = new ParameterizedTypeReference<List<Map<Set<Integer>, String>>>() {};
         System.out.println(type.getType());
     }
 }
