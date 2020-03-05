@@ -1,5 +1,7 @@
 package com.type.token;
 
+import org.springframework.core.ResolvableType;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -63,5 +65,9 @@ public class SuperTypeToken {
         System.out.println(m.get(new TypeReference<List<Integer>>(){}));
         System.out.println(m.get(new TypeReference<List<String>>(){}));
         System.out.println(m.get(new TypeReference<List<List<String>>>(){}));
+
+        ResolvableType rt = ResolvableType.forInstance(new TypeReference<List<String>>(){});
+        System.out.println(rt.getSuperType().getGeneric(0).getType());
+        System.out.println(rt.getSuperType().getGeneric(0).getNested(2).getType());
     }
 }
