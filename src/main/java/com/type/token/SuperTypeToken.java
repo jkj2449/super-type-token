@@ -6,17 +6,17 @@ import java.util.*;
 
 public class SuperTypeToken {
     static class TypeSafeMap {
-        Map<TypeReference<?>, Object> map = new HashMap<>();
+        Map<Type, Object> map = new HashMap<>();
 
         <T> void put(TypeReference<T> tr, T value) {
-            map.put(tr, value);
+            map.put(tr.type, value);
         }
 
         <T> T get(TypeReference<T> tr) {
             if(tr.type instanceof Class<?>) {
-                return ((Class<T>)tr.type).cast(map.get(tr));
+                return ((Class<T>)tr.type).cast(map.get(tr.type));
             } else {
-                return ((Class<T>)((ParameterizedType) tr.type).getRawType()).cast(map.get(tr));
+                return ((Class<T>)((ParameterizedType) tr.type).getRawType()).cast(map.get(tr.type));
             }
         }
     }
@@ -56,10 +56,12 @@ public class SuperTypeToken {
         m.put(new TypeReference<String>(){}, "String");
         m.put(new TypeReference<List<Integer>>(){}, Arrays.asList(1, 2, 3));
         m.put(new TypeReference<List<String>>(){}, Arrays.asList("a", "b", "c"));
+        m.put(new TypeReference<List<List<String>>>(){}, Arrays.asList(Arrays.asList("a"), Arrays.asList("b"), Arrays.asList("c")));
 
         System.out.println(m.get(new TypeReference<Integer>(){}));
         System.out.println(m.get(new TypeReference<String>(){}));
         System.out.println(m.get(new TypeReference<List<Integer>>(){}));
         System.out.println(m.get(new TypeReference<List<String>>(){}));
+        System.out.println(m.get(new TypeReference<List<List<String>>>(){}));
     }
 }
